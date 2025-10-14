@@ -39,11 +39,11 @@ jobs:
       - name: Start Docker containers
         run: |
           docker info
-          docker-compose -f compose.test.yaml up -d --force-recreate
+          docker compose -f compose.test.yaml up -d --force-recreate
 
       - name: Build and run app
         run: |
-          docker-compose -f compose.test.yaml up --force-recreate --no-deps --build app
+          docker compose -f compose.test.yaml up --force-recreate --no-deps --build app
           EXIT_CODE=$(docker inspect test-messenger --format={{.State.ExitCode}})
           exit $EXIT_CODE
 
@@ -51,7 +51,7 @@ jobs:
         run: |
           docker cp test-messenger:app/report.xml . || true
           docker cp test-messenger:app/coverage.xml . || true
-          docker-compose -f compose.test.yaml down
+          docker compose -f compose.test.yaml down
 
       - name: Upload coverage and report artifacts
         uses: actions/upload-artifact@v4
