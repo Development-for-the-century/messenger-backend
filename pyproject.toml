@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "authx>=1.4.3",
     "fastapi>=0.119.0",
     "httpx>=0.28.1",
     "pre-commit>=4.3.0",
@@ -14,6 +15,22 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "greenlet>=3.2.4",
     "pytest>=8.4.2",
     "pytest-cov>=7.0.0",
 ]
+
+[tool.coverage.run]
+branch = true
+omit = ["*/test/*"]
+concurrency = ["thread", "greenlet"]
+
+[tool.coverage.report]
+fail_under = 75
+skip_covered = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = [".", "src"]
+addopts = "--disable-warnings --cov=. --cov-report=xml --cov-report=term-missing --junit-xml=report.xml --tb=short"
+testpaths = ["test"]
