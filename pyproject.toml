@@ -1,0 +1,19 @@
+[project]
+name = "messenger"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.119.0",
+    "httpx>=0.28.1",
+    "pre-commit>=4.3.0",
+    "ruff>=0.14.0",
+    "uvicorn>=0.37.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+    "pytest-cov>=7.0.0",
+]

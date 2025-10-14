@@ -1,0 +1,12 @@
+services:
+  app:
+    container_name: messenger
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "9999:9999"
+    env_file:
+      - .env
+    restart: unless-stopped

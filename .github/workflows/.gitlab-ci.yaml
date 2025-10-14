@@ -1,0 +1,59 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  code_standard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruff
+        run: |
+          curl -sSL https://install.ruby-lang.org | bash
+          gem install ruff -v 0.11.6
+
+      - name: Run Ruff for code standard
+        run: ruff check .
+
+  test:
+    runs-on: ubuntu-latest
+    needs: code_standard
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Start Docker containers
+        run: |
+          docker info
+          docker-compose -f compose.test.yaml up -d --force-recreate
+
+      - name: Build and run app
+        run: |
+          docker-compose -f compose.test.yaml up --force-recreate --no-deps --build app
+          EXIT_CODE=$(docker inspect test-messenger --format={{.State.ExitCode}})
+          exit $EXIT_CODE
+
+      - name: Collect artifacts and clean up
+        run: |
+          docker cp test-messenger:app/report.xml . || true
+          docker cp test-messenger:app/coverage.xml . || true
+          docker-compose -f compose.test.yaml down
+
+      - name: Upload coverage and report artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-reports
+          path: |
+            report.xml
+            coverage.xml
+
+    timeout-minutes: 60

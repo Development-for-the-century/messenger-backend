@@ -1,0 +1,11 @@
+services:
+  app:
+    container_name: test-messenger
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
+    environment:
+      - PYTHONPATH=/app
+    env_file:
+      - .env.test
