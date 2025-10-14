@@ -15,10 +15,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Ruff
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.13'
+
+      - name: Install Ruff
         run: |
-          curl -sSL https://install.ruby-lang.org | bash
-          gem install ruff -v 0.11.6
+          python -m pip install --upgrade pip
+          pip install ruff
 
       - name: Run Ruff for code standard
         run: ruff check .
