@@ -13,4 +13,4 @@ FROM base AS test
 ENV PYTHONPATH=/app
 RUN uv sync --frozen --no-cache --dev
 COPY ./src .
-CMD ["uv", "run", "pytest", "."]
+# CMD ["uv", "run", "pytest", "."]
