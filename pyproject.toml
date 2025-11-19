@@ -7,13 +7,32 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.119.0",
     "httpx>=0.28.1",
-    "pre-commit>=4.3.0",
-    "ruff>=0.14.0",
+    "pydantic-settings>=2.12.0",
+    "pyjwt>=2.10.1",
     "uvicorn>=0.37.0",
+    "python-multipart>=0.0.9",
 ]
 
 [dependency-groups]
 dev = [
+    "greenlet>=3.2.4",
+    "pre-commit>=4.4.0",
     "pytest>=8.4.2",
     "pytest-cov>=7.0.0",
+    "ruff>=0.14.5",
 ]
+
+[tool.coverage.run]
+branch = true
+omit = ["*/test/*"]
+concurrency = ["thread", "greenlet"]
+
+[tool.coverage.report]
+fail_under = 75
+skip_covered = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = [".", "src"]
+addopts = "--disable-warnings --cov=. --cov-report=xml --cov-report=term-missing --junit-xml=report.xml --tb=short"
+testpaths = ["test"]
