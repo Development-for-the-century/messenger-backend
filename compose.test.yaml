@@ -7,3 +7,6 @@ services:
       target: test
     environment:
       - PYTHONPATH=/app
+      - JWT__SECRET_KEY=test_secret_key
+      - JWT__ALGORITHM=HS256
+      - JWT__COOKIE_NAME=access_token

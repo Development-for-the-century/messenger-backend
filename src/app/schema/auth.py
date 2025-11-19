@@ -1,6 +1,14 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, SecretStr
 
 
-class UserLoginSchema(BaseModel):
+class LoginForm(BaseModel):
     username: str
-    password: str
+    password: SecretStr
+
+
+class Token(BaseModel):
+    access_token: str
+
+
+class LogoutOK(BaseModel):
+    detail: str = "Log out"

@@ -1,8 +1,21 @@
-from authx import AuthX, AuthXConfig
+from typing import Literal
 
-config = AuthXConfig()
-config.JWT_SECRET_KEY = "SECRET_KEY"
-config.JWT_ACCESS_COOKIE_NAME = "access_token"
-config.JWT_TOKEN_LOCATION = ["cookies"]
+from pydantic import Field, SecretStr
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-security = AuthX(config)
+
+class JWTSettings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_prefix="JWT__",
+        env_file=[".env.test", ".env"],
+        env_file_encoding="utf-8",
+    )
+    secret_key: SecretStr
+    algorithm: str = Field("HS256")
+    cookie_name: str = Field("access_token")
+    secure: bool = Field(True)
+    samesite: Literal["strict", "lax", "none"] = Field("strict")
+
+
+def get_jwt_settings():
+    return JWTSettings()  # type: ignore

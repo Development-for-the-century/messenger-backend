@@ -40,11 +40,3 @@ docker compose -f compose.test.yaml up --build
 ```
 http://localhost:9999/docs
 ```
-
-Моковые данные для */api/login*:
-```
-{
-  "username": "uname",
-  "password": "test"
-}
-```
