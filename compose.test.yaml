@@ -11,24 +11,18 @@ services:
       - JWT__ALGORITHM=HS256
       - JWT__COOKIE_NAME=access_token
 
-  postgres:
+  test-postgres:
     image: postgres:16
     container_name: test-postgres
-    env_file:
-      - .env.test
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=messenger
     ports:
       - "6543:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 2s
-      timeout: 5s
-      retries: 10
-
-  postgres_init:
-    container_name: postgres_init
-    command: >
-      sh -c "
-        uv run alembic upgrade head
-      "
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      start_period: 60s
+      retries: 5

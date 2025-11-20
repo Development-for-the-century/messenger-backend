@@ -10,7 +10,8 @@ COPY ./src/app app
 CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "9999", "--reload"]
 
 FROM base AS test
+WORKDIR /app
 ENV PYTHONPATH=/app
 RUN uv sync --frozen --no-cache --dev
-COPY ./src .
-# CMD ["uv", "run", "pytest", "."]
+COPY ./src ./src
+CMD ["uv", "run", "pytest", "src/test"]

@@ -11,6 +11,7 @@ dependencies = [
     "pyjwt>=2.10.1",
     "uvicorn>=0.37.0",
     "python-multipart>=0.0.9",
+    "sqlalchemy>=2.0.44",
 ]
 
 [dependency-groups]
@@ -22,13 +23,32 @@ dev = [
     "ruff>=0.14.5",
 ]
 
+[tool.pylint.main]
+init-hook = "import sys; sys.path.append('.')"
+load-plugins = ["extension.pylint"]
+disable = ["all"]
+enable = ["pytest-mark-checker", "job-import-checker"]
+
+[tool.pylint."pytest-mark-checker"]
+type-marks = "unit,integration"
+test-root = "tests"
+
+[tool.pylint."job-import-checker"]
+job-root = "src"
+
+[tool.pyright]
+include = ["src",]
+pythonVersion = "3.13"
+exclude = ["tests"]
+reportUnusedCallResult = "error"
+
 [tool.coverage.run]
 branch = true
 omit = ["*/test/*"]
 concurrency = ["thread", "greenlet"]
 
 [tool.coverage.report]
-fail_under = 75
+fail_under = 85
 skip_covered = true
 
 [tool.pytest.ini_options]
