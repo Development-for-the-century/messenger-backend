@@ -6,7 +6,7 @@ COPY pyproject.toml uv.lock ./
 
 FROM base AS dev
 RUN uv sync --frozen --no-cache
-COPY ./src/app app
+COPY /src .
 CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "9999", "--reload"]
 
 FROM base AS test

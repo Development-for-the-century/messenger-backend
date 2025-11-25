@@ -8,7 +8,9 @@ from app.config import get_jwt_settings
 from app.exception import Api400Error, Api401Error
 from app.schema.user import UserJWTBody
 
-COOKIE_AUTH_SCHEME = APIKeyCookie(name=get_jwt_settings().cookie_name, auto_error=False)
+jwt_settings = get_jwt_settings()  # pyright: ignore[reportCallIssue]
+
+COOKIE_AUTH_SCHEME = APIKeyCookie(name=jwt_settings.cookie_name, auto_error=False)
 
 HEADER_AUTH_SCHEME = HTTPBearer(auto_error=False)
 

@@ -24,8 +24,8 @@ class JWTSettings(BaseSettings):
 
 
 def get_db_settings() -> DatabaseSettings:
-    return DatabaseSettings()  # type: ignore
+    return DatabaseSettings()  # pyright: ignore[reportCallIssue]
 
 
 def get_jwt_settings():
-    return JWTSettings()  # type: ignore
+    return JWTSettings()  # pyright: ignore[reportCallIssue]

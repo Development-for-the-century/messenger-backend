@@ -4,6 +4,7 @@ from fastapi.security import HTTPBearer
 
 from app.api.v1.routers import router as v1_router
 from app.exception import Api500Error, BaseAPIError
+from db.api import router as db_router
 
 token_auth_svheme = HTTPBearer()
 
@@ -11,6 +12,7 @@ app = FastAPI()
 
 router = APIRouter(prefix="/api")
 router.include_router(v1_router)
+router.include_router(db_router)
 app.include_router(router=router)
 
 
